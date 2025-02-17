@@ -1,19 +1,16 @@
-%
-% Function to compute the inverse of k steps of the Haar wavelet transform
-%
-function u = haar_inv_step(c, k)
-    n = length(c);
-    u = c;
-    
-    step = 2^(k-1); % Start with the largest step size used in haar_step
 
-    for round = 1:k
-        for i = 1:2*step:n
-            avg = u(i);
-            diff = u(i+step);
-            u(i) = avg + diff;
-            u(i+step) = avg - diff;
+% Function to compute the inverse of k steps of the Haar wavelet transform
+function u = haar_inv_step(c, k)
+    n = length(c) / (2^(k-1));
+    u = c;
+    for step = 1:k
+        temp = u;
+        for i = 1:n/2
+            avg = temp(i);
+            diff = temp(n/2+i);
+            u(2*i-1) = avg + diff;
+            u(2*i) = avg - diff;
         end
-        step = step / 2; % Reduce step size to match haar_step progression
+        n = n * 2;
     end
 end

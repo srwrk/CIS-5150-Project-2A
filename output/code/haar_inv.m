@@ -1,17 +1,16 @@
-%
 % Function to compute the inverse Haar wavelet transform
-%
 function u = haar_inv(c)
-    n = length(c);
+    n = 1;
+    len = length(c);
     u = c;
-    step = n/2;
-    while step >= 1
-        for i = 1:2*step:n
-            avg = u(i);
-            diff = u(i+step);
-            u(i) = avg + diff;
-            u(i+step) = avg - diff;
+    while 2*n <= len
+        temp = u;
+        for i = 1:n
+            avg = temp(i);
+            diff = temp(n+i);
+            u(2*i-1) = avg + diff;
+            u(2*i) = avg - diff;
         end
-        step = step / 2;
+        n = n * 2;
     end
 end
